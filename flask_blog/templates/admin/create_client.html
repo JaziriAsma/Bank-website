@@ -1,0 +1,172 @@
+{% extends 'index.html' %}
+
+{% block title %}Insert Client{% endblock %}
+
+{% block content %}
+
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <!--Username-->
+            <div class="form-group">
+                {{ form.username.label(class="form-control-label") }}
+                {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.username(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--CIN-->
+            <div class="form-group">
+                {{ form.cin.label(class="form-control-label") }}
+                {% if form.cin.errors %}
+                    {{ form.cin(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.cin.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.cin(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Date de  naissance-->
+            <div class="form-group">
+                {{ form.date_naissance.label(class="form-control-label") }}
+                {% if form.date_naissance.errors %}
+                    {{ form.date_naissance(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.date_naissance.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.date_naissance(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Adresse Email-->
+            <div class="form-group">
+                {{ form.email.label(class="form-control-label") }}
+                {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Numéro de téléphone-->
+            <div class="form-group">
+                {{ form.numero.label(class="form-control-label") }}
+                {% if form.numero.errors %}
+                    {{ form.numero(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.numero.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.numero(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Adresse-->
+            <div class="form-group">
+                {{ form.adresse.label(class="form-control-label") }}
+                {% if form.adresse.errors %}
+                    {{ form.adresse(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.adresse.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.adresse(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Sexe-->
+            <div class="form-group">
+                {{ form.sexe.label(class="form-control-label") }}
+                {% if form.sexe.errors %}
+                    {{ form.sexe(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.sexe.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.sexe(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Etat Civil-->
+            <div class="form-group">
+                {{ form.etatCivil.label(class="form-control-label") }}
+                {% if form.etatCivil.errors %}
+                    {{ form.etatCivil(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.etatCivil.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.etatCivil(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Password-->
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Carte Bancaire-->
+            <div class="form-group">
+                {{ form.num_carte.label(class="form-control-label") }}
+                {% if form.num_carte.errors %}
+                    {{ form.num_carte(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.num_carte.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.num_carte(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!--Code Confi-->
+            <div class="form-group">
+                {{ form.code_conf.label(class="form-control-label") }}
+                {% if form.code_conf.errors %}
+                    {{ form.code_conf(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.code_conf.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.code_conf(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

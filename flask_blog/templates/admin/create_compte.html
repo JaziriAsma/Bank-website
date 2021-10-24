@@ -1,0 +1,56 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="{{ url_for('compte_user', user_id=user_id) }}">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <div class="form-group">
+                {{ form.type.label(class="form-control-label") }}
+                {% if form.type.errors %}
+                    {{ form.type(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.type.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.type(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.RIB.label(class="form-control-label") }}
+                {% if form.RIB.errors %}
+                    {{ form.RIB(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.RIB.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.RIB(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+               <div class="form-group">
+                {{ form.somme.label(class="form-control-label") }}
+                {% if form.somme.errors %}
+                    {{ form.somme(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.somme.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.somme(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+
+      <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+        </fieldset>
+
+    </form>
+</div>
+{% endblock content %}

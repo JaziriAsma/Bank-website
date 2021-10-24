@@ -1,0 +1,135 @@
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<html>
+<head>
+<title> Système bancaire</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="shortcut icon" href="{{url_for('static', filename = 'teacher.png' )}}">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+
+<script>
+	$(document).ready(function () {
+    $("#verser").click(function () {
+		$("#verser-form").toggle(1000);
+		console.log("morning")
+    });
+});
+</script>
+
+</head>
+<body>
+
+	<nav class="navtop">
+	    	<div>
+				<h1>Système bancaire</h1>
+                <a href="{{ url_for('client_liste') }}"><i class="fas fa-user"></i>Clients</a>
+				<a href="{{ url_for('compte_liste') }}"><i class="fas fa-address-book"></i>Comptes</a>
+                <a href="{{ url_for('chequier_liste') }}"><i class="fas fa-check"></i>Demandes chéquier</a>
+				<a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+			</div>
+		</nav>
+		<div class="content">
+			{% block content%}{% endblock %}
+		</div>
+
+<div class="container">
+	<div class="well text-center">
+		<h1>Système de gestion bancaire</h1>
+	</div>
+</div>
+
+{%block body %}
+<div class="container">
+	<div class="row">
+		<div class="col md-12">
+			{% with messages = get_flashed_messages() %}
+
+			{% if messages %}
+
+			{% for message in messages %}
+			<div class="alert alert-success alert-dismissable" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="close">
+					<span aria-hidden="true">x</span>
+				</button>
+
+				{{ message }}
+			</div>
+
+			{% endfor %}
+			{% endif %}
+			{% endwith %}
+		<table border="1" style="height: fit-content;align-content: center;" class="table table-striped">
+			<tr style="text-align: center;">
+				<th> Type</th>
+				<th> Numéro de compte </th>
+		      	<th> Somme</th>
+				<th> Client</th>
+				<th style="width: fit-content;"> Action</th>
+			</tr>
+		    {% for compte in comptes %}
+                <tr>
+                    <td>{{compte.type}}</td>
+                    <td>{{compte.RIB}}</td>
+                    <td>{{compte.somme}}</td>
+                    <td>{{compte.client.username}}</td>
+					<td>
+					<div style="width:fit-content;display: flex; justify-content: space-evenly; flex-wrap: nowrap;">
+
+					 <form style="display: flex;" method="POST" action="{{ url_for('verser',acc_id=compte.RIB) }}">
+						<div class="form-group">
+							{% if form1.montant.errors %}
+								{{ form1.montant(class="form1-control form1-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form1.montant.errors %}
+										<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+							{% else %}
+								{{ form1.montant(class="form1-control form1-control-lg") }}
+							{% endif %}
+						</div>
+						<div class="form-group">
+							{{ form1.submit(class="btn btn-outline-info") }}
+						</div>
+					 </form>
+					 <form action="{{ url_for('delete_compte', acc_id=compte.RIB) }}" method="POST">
+                 	 	<input class="btn fa fa-times" type="submit" value="Radier">
+                     </form>
+					</td>
+				</div>
+				</tr>
+			{% endfor %}
+		</table>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock%}
+
+
+</body>
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+
+</html>

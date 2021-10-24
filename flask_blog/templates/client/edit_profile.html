@@ -1,0 +1,141 @@
+{% extends "index.html" %}
+{% block content %}
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+
+      <div class="row">
+      <div class="col-md-6 toppad  pull-right col-md-offset-3 ">
+    
+       <br>
+
+      </div>
+        <div class="" >
+   
+   
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Mise à jour des informations</h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                      <form method="POST" action="{{ url_for('account') }}" enctype="multipart/form-data">
+                     {{ form.hidden_tag() }}         
+                <div class="col-md-3 col-lg-4 " align="center"> <img  src="{{ image_file }}" class="img-circle img-responsive" style="width:140px; height: 120px;">
+                 {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <span class="text-danger">{{ error }}</span></br>
+                        {% endfor %}
+                    {% endif %} </div>
+
+
+                <div class=" col-md-9 col-lg-8 "> 
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td>Nom et prénom</td>
+                        <td>
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                    </td>
+                      </tr>
+                      <tr>
+                        <td>Adresse mail</td>
+                        <td>
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Date de naissance</td>
+                        <td>01/24/1988</td>
+                      </tr>
+                   
+                         <tr>
+                             <tr>
+                        <td>Numéro de téléphone</td>
+                        <td>Female</td>
+                      </tr>
+                        <tr>
+                        <td>Adresse</td>
+                        <td>Kathmandu,Nepal</td>
+                      </tr>
+                        <td>Phone Number</td>
+                        <td>123-4567-890(Landline)<br><br>555-4567-890(Mobile)
+                        </td>
+                           
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                    {{ form.submit(class="btn btn-primary") }}
+            
+                </div>
+              </div>
+            </div>
+            </form>
+                 <div class="panel-footer">
+                  
+                 </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+    <style>
+.user-row {
+    margin-bottom: 14px;
+}
+
+.user-row:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-user {
+    margin: 13px 0;
+    padding: 5px;
+    height: 100%;
+}
+
+.dropdown-user:hover {
+    cursor: pointer;
+}
+
+.table-user-information > tbody > tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+.toppad
+{margin-top:20px;
+}
+
+    </style>

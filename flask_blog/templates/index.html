@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %}{% endblock %}</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+<link rel="shortcut icon" href="{{url_for('static', filename = 'teacher.png' )}}">
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+	</head>
+	<body class="loggedin">
+		<nav class="navtop">
+			<div>
+				<h1>Système bancaire</h1>
+                <a href="{{ url_for('client_liste') }}"><i class="fas fa-user"></i>Clients</a>
+				<a href="{{ url_for('compte_liste') }}"><i class="fas fa-address-book"></i>Comptes</a>
+                <a href=""><i class="fas fa-check"></i>Demandes chéquier</a>
+				<a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+			</div>
+		</nav>
+		<div class="content">
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>

@@ -1,0 +1,154 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Se connecter</title>
+	<!--Made with love by Mutiullah Samim -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+		integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+</head>
+
+<script>
+	$(document).ready(function () {
+    $("#button").click(function () {
+		$("#login_form").fadeIn(1000);
+		$("#anis").css({'filter': 'blur(5px)'});
+    });
+});
+
+alert = document.getElementById("#alert-box")
+function showAlert(message){
+	alert.style.display = "inline-block";
+    alert.innerHTML = message;
+}
+
+
+</script>
+
+<body>
+	<div class="shadow-sm p-3 mb-5 bg-white rounded">
+		<span style="font-weight: 800;font-family : 'Merriweather', serif;font-size: 24px; color:#1e3c7a">e-bank</span>
+		<a href="#Footer" style="float:right; text-decoration: none; color: black;font-size: 19px">Contactez Nous 📱</a>
+	</div>
+
+	{% for category, message in get_flashed_messages(with_categories=True) %}
+	<div style="width: fit-content;font-size: 14px;margin-left:40%;" class="alert alert-{{category}} alert-dismissable" role="alert">
+		<button style="width: 30px;" type="button" class="close" data-dismiss="alert" aria-label="close">
+			<span aria-hidden="true">x</span>
+		</button>
+		{{ message }}
+	</div>
+	{% endfor %}
+		<div id="login_form" class="container">
+			<div class="d-flex justify-content-center h-100">
+				<div class="card">
+					<div class="card-header">
+						<h3>Se connecter</h3>
+						<div class="d-flex justify-content-end social_icon">
+							<span><i class="fab fa-credit-card-alt "></i></span>
+							<span><i class="fab fa-money-square"></i></span>
+						</div>
+					</div>
+					<main role="main" class="container">
+						<div class="row">
+							<div class="col-md-8">
+								{% with messages = get_flashed_messages(with_categories=true) %}
+								{% if messages %}
+								{% for category, message in messages %}
+								<div class="alert alert-{{ category }}">
+									{{ message }}
+								</div>
+								{% endfor %}
+								{% endif %}
+								{% endwith %}
+								{% block content %}{% endblock %}
+							</div>
+						</div>
+
+					</main>
+					<div class="card-body">
+						<form id="form" onsubmit="myFunction()" action="{{ url_for('login') }}" method="post">
+							{{ form.hidden_tag() }}
+							<div class="input-group form-group" >
+								<div class="input-group-prepend" style="width: 40;">
+									<span class="input-group-text"><i class="fas fa-user"></i></span>
+								</div>
+								{% if form.email.errors %}
+								{{ form.email(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.email.errors %}
+									<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+								{% else %}
+								{{ form.email(class="form-control form-control-lg") }}
+								{% endif %}
+							</div>
+
+							<div class="input-group form-group">
+								<div class="input-group-prepend" style="width: 40;">
+									<span class="input-group-text"><i class="fas fa-key"></i></span>
+								</div>
+								{% if form.password.errors %}
+								{{ form.password(class="form-control form-control-lg is-invalid") }}
+								<div class="invalid-feedback">
+									{% for error in form.password.errors %}
+									<span>{{ error }}</span>
+									{% endfor %}
+								</div>
+								{% else %}
+
+								{{ form.password(class="form-control form-control-lg") }}
+								{% endif %}
+							</div>
+							<div class="row align-items-center remember">
+								{{ form.remember(class="form-check-input") }}
+								&nbsp &nbsp &nbsp &nbsp
+								<span style="margin-left: 7px;margin-top: 7px;">{{ form.remember.label(class="form-check-label") }}</span>
+							</div>
+
+							<div id="submit" class="form-group">
+								{{ form.submit(class="btn float-right login_btn") }}
+							</div>
+
+						</form>
+					</div>
+					<div class="card-footer">
+						<div class="d-flex justify-content-center">
+							<a href="#">Forgot your password?</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div id="anis" class="login_page" style="display:inline-flex;">
+		<div class="content">
+			<h2>Bienvenue à votre banque en ligne</h2>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, sed.
+				Recusandae magni facilis aspernatur dolor, repudiandae repellat molestiae consequuntur.
+				Aliquid nostrum fugit tenetur optio necessitatibus, rerum nihil consequatur nulla aperiam.
+			</p>
+			<button  id="button" class="btn btn-primary">Login</button>
+		</div>
+		<div class="illustration">
+			<img src="../static/css/anis.png" width="700.3" height="497" alt="">
+		</div>
+	</div>
+	<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+
+</body>
+
+</html>

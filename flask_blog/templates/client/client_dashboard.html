@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../../static/client_profile.css">
+    <link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <title>Profile</title>
+</head>
+
+<body>
+    <div class="shadow-sm p-3 mb-5 bg-white rounded">
+        <span
+            style="margin-left:12px;font-weight: 800;font-family : 'Electrolize', sans-serif;font-size: 24px; color:#1e3c7a">e-bank</span>
+        <div style="float: right" ;>
+            <span style="margin-right: 7px; font-size: 17px;">{{user.username}}</span>
+            <a style="text-decoration: none;" href="{{ url_for('logout') }}">
+                <i style="color: #1e3c7a;" class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </div>
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div style="width: fit-content;font-size: 14px;margin-left:40%;" class="alert alert-{{category}} alert-dismissable"
+        role="alert">
+        <button style="width: 30px;" type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="container-fixed">
+        <div class="card" style="padding: 10px; height: 320px;">
+            <div style="margin-left: 25%;display:inline-block;">
+                <img src="../../static/css/unnamed.png" width="100" height="100"
+                    style="margin-left:30px;margin-bottom:3px; margin-top:3px;">
+                <h1>{{user.username}}</h1>
+            </div>
+            <ul style="font-size: 14px;">
+                <li>CIN : {{user.cin}}</li>
+                <li>Adresse E-mail : {{user.email}} </li>
+                <li>Adresse Physique : {{user.adresse}}</li>
+                <li>Date de naissance : {{user.naissance}}</li>
+                <li>Numéro de téléphone : {{user.num_tel}}</li>
+            </ul>
+            <button><b>Modfier</b></button>
+
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <h2 style="margin-top:40px;margin-bottom : 20px">Vos Comptes</h2>
+            <div class="slider">
+                <div class="slides">
+                    {% for compte in user.comptes %}
+                    <div id="slide-1">
+                        <div class="container">
+                            <ul style="font-size: 14px;">
+                                <li><b>RIB</b> : {{compte.RIB}}</li>
+                                <li><b>Date de Création</b> : {{compte.date_creation}}</li>
+                                <li><b>Montant</b> : {{compte.somme}} TND</li>
+                                <li><b>Type</b> : {{compte.type}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <p style="margin-top: 5px;"><i>Scroller pour voir les informations des autres comptes</i></p>
+
+            <div class="trans-history">
+                <h2 style="margin-bottom : 20px">Votre historique d'opération</h2>
+                <div class="trans-table">
+                    <table border="1">
+                        <th>RIB</th>
+                        <th>Type d'opération</th>
+                        <th>Vers</th>
+                        <th>Montant</th>
+                        {% for Tx in Tx %}
+                        <tr>
+                            <td>{{Tx.de}}</td>
+                            <td>{{Tx.type}}</td>
+                            <td>{{Tx.vers}}</td>
+                            <td>{{Tx.montant}} TND</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+                <button style="color:#fff;width: 20%; margin-top: 15px; float: right;background-color: #1e3c7a;">
+                    <b>Imprimer Extrait 🖨 </b>
+                </button>
+            </div>
+            <div style="width:100%;display: flex;justify-content: space-evenly;margin-top: 50px; flex-wrap: nowrap;">
+                <form style="margin-right: 150px;" action="{{url_for('chequier_user', user_id=user.id)}}" method="POST">
+                    <input style="background-color: #1e3c7a;width: 100%;font-size: 14px;" class="btn btn-primary"
+                        type="submit" value="Demander chéquier">
+                </form>
+                <div style="display: flex;flex-direction: column; justify-content:space-evenly; position: absolute;">
+                    <input id="virement" style="background-color: #1e3c7a;width: 100%;font-size: 14px;"
+                        class="btn btn-primary" type="submit" value="Virement">
+                    <form id="virementForm" style="margin-top:10px;font-size:17;width:100%;display: none;"
+                        action="{{url_for('virement', user_id=user.id)}}" method="POST">
+                        <div class="form-group">
+                            {{ form.De.label(class="form-control-label") }}
+                            {% if form.De.errors %}
+                            {{ form.De(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.De.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.De(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <!--CIN-->
+                        <div class="form-group">
+                            {{ form.vers.label(class="form-control-label") }}
+                            {% if form.vers.errors %}
+                            {{ form.vers(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.vers.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.vers(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <!--montant-->
+                        <div class="form-group">
+                            {{ form.montant.label(class="form-control-label") }}
+                            {% if form.montant.errors %}
+                            {{ form.montant(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.montant.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.montant(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-outline-info") }}
+                        </div>
+                    </form>
+                </div>
+                <div style="display: flex;flex-direction: column; width: 150px;">
+                    <input id="extraire" style="background-color: #1e3c7a;font-size: 14px;"
+                        class="btn btn-primary" type="submit" value="Retirer">
+                        <form id="ExtraireForm" style="margin-top:10px;font-size:17;display: none;"
+                        action="{{url_for('Retirer', user_id=user.id)}}" method="POST">
+                        <div class="form-group">
+                            {{ form1.num_carte.label(class="form-control-label") }}
+                            {% if form1.num_carte.errors %}
+                            {{ form1.num_carte(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.num_carte.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form1.num_carte(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <!--CIN-->
+                        <div class="form-group">
+                            {{ form1.code_conf.label(class="form-control-label") }}
+                            {% if form1.code_conf.errors %}
+                            {{ form1.code_conf(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.code_conf.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form1.code_conf(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <!--montant-->
+                        <div class="form-group">
+                            {{ form1.montant.label(class="form-control-label") }}
+                            {% if form1.montant.errors %}
+                            {{ form1.montant(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.montant.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form1.montant(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <!--montant-->
+                        <div class="form-group">
+                            {{ form1.RIB.label(class="form-control-label") }}
+                            {% if form1.RIB.errors %}
+                            {{ form1.RIB(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form1.RIB.errors %}
+                                <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form1.RIB(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form1.submit(class="btn btn-outline-info") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $("#virement").click(function () {
+            $("#virementForm").fadeIn(1000);
+        });
+    });
+
+    $(document).ready(function () {
+        $("#extraire").click(function () {
+            $("#ExtraireForm").fadeIn(1000);
+        });
+    });
+</script>
+
+</html>
